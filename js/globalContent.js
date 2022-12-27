@@ -12,9 +12,9 @@ if(app == undefined){
 const ipc = app.ipcRenderer;
 
 
-const BrowserWindow = app.remote.BrowserWindow;
+const BrowserWindow = app.BrowserWindow;
 
-var dialog = app.remote.dialog;
+var dialog = app.dialog;
 
 var fs = require("fs");
 

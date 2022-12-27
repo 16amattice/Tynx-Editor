@@ -32,6 +32,7 @@
 
 
 
+
 	<!-- Insert this line after script imports -->
 	<!--<script>if (window.module) module = window.module;</script>-->
 
@@ -91,8 +92,8 @@
 	<script src="editor/themes/theme-twilight.js"></script>
 	<script src="editor/themes/theme-xcode.js"></script>
 
-	<script src="ace-builds-master/src-min/snippets/php.js"></script>
-	<script src="ace-builds-master/src-min/snippets/html.js"></script>
+	<script src="js/php.js"></script>
+	<script src="js/html.js"></script>
 
 	<!-- themes end -->
 
@@ -117,9 +118,9 @@
 
 			<div class="windowControls windowControlsStyle preventSelect">
 
-				<button id="minimise"> <i class="far fa-window-minimize"></i> </button>
-				<button id="maximise"> <i class="far fa-window-maximize"></i> </button>
-				<button id="quit"> <i class="fas fa-times"></i> </button>
+				<button id="minimize" onclick="minimizeApp()"> <i class="far fa-window-minimize"></i> </button>
+				<button id="maximize" onclick="maximizeApp()"> <i class="far fa-window-maximize"></i> </button>
+				<button id="quit" onclick="quitApp()"> <i class="fas fa-times"></i> </button>
 
 			</div>
 
