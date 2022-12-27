@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\css",
+    "\\js"
   ],
-  "SelectedNode": "\\index.html",
+  "SelectedNode": "\\js\\codeslate.js",
   "PreviewInSolutionExplorer": false
 }

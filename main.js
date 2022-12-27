@@ -1,26 +1,29 @@
-const { app, BrowserWindow } = require('electron')
-const path = require('path')
-
+const { app, BrowserWindow, ipcMain } = require("electron");
 
 app.whenReady().then(() => {
-    createWindow()
-
-    app.on('activate', () => {
-        if (BrowserWindow.getAllWindows().length === 0) createWindow()
-    })
-})
-app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') app.quit()
-})
-
-const createWindow = () => {
-    const win = new BrowserWindow({
-        width: 800,
-        height: 600,
+    const window = new BrowserWindow({
+        width: 900,
+        height: 800,
+        minHeight: 650,
+        minWidth: 600,
+        frame: false,
+        autoHideMenuBar: true,
         webPreferences: {
-            preload: path.join(__dirname, 'preload.js')
+            nodeIntegration: true,
+            contextIsolation: false,
         }
-    })
+    });
+    window.loadFile("editor.html");
 
-    win.loadFile('index.html')
-}
+    ipcMain.on("minimizeApp", (event, data) => {
+        window.minimize();
+    });
+
+    ipcMain.on("maximizeApp", (event, data) => {
+        window.maximize();
+    });
+
+    ipcMain.on("quitApp", (event, data) => {
+        window.close();
+    });
+});
