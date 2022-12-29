@@ -10,6 +10,7 @@
     "author": "16amattice",
     "license": "ISC",
     "devDependencies": {
+        "@electron-forge/cli": "^6.0.4",
         "electron": "^22.0.0"
     },
     "dependencies": {
