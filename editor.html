@@ -21,22 +21,22 @@
 
 	<!-- normal script imports etc  -->
 	<script src="js/libraries/jquery.min.js"></script>
-
 	<script src="js/libraries/jquery.menu.js"></script>
+	<script src="js/libraries/jqueryui.js"></script>
+	<script src="js/libraries/fontaw.js"></script>
+	<script src="js/libraries/ace.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/php.js"></script>
+	<script src="js/html.js"></script>
 	<script src="js/libraries/ext-searchbox.js"></script>
 	<script src="js/libraries/ext-beautify.js"></script>
 	<script src="js/libraries/ext-error_marker.js"></script>
 	<script src="js/libraries/ext-spellcheck.js"></script>
-	<script src="js/libraries/jqueryui.js"></script>
-	<script src="js/libraries/fontaw.js"></script>
-
 
 
 
 	<!-- Insert this line after script imports -->
 	<!--<script>if (window.module) module = window.module;</script>-->
 
-	<script src="js/libraries/ace.js" type="text/javascript" charset="utf-8"></script>
 
 	<script src="editor/modes/mode-javascript.js"></script>
 	<script src="editor/modes/mode-java.js"></script>
@@ -92,8 +92,7 @@
 	<script src="editor/themes/theme-twilight.js"></script>
 	<script src="editor/themes/theme-xcode.js"></script>
 
-	<script src="js/php.js"></script>
-	<script src="js/html.js"></script>
+
 
 	<!-- themes end -->
 
@@ -284,7 +283,7 @@
 						<div id='folderName'></div>
 
 						<button id="syncFiles" title="sync files"><i class='fas fa-sync-alt'></i></button>
-						<button id="changeFolder">Change</button>
+						<button id="changeFolder" onclick="selectFolder()">Change</button>
 
 					</div>
 

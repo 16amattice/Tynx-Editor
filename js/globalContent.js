@@ -18,6 +18,7 @@ var dialog = app.dialog;
 
 var fs = require("fs");
 
+
 var jsonFilePath = path.join(__dirname,'jsonRecord','storage.json');
 
 var jsonThemeFilePath = path.join(__dirname,'jsonRecord','themes.json');
@@ -45,6 +46,7 @@ var closedTabs=0;
 var widgetsShown = true;
 var openedFiles = [];
 var savedFiles = [];
+
 
 
 var editorStyles = "position: relative;"+
@@ -111,28 +113,12 @@ var times;
 fs.readFile(jsonFilePath,"utf-8",function(e,data){
 
 	var parseJson = JSON.parse(data);
-	var defaultDirectoryPath;
-	times = parseJson.firstTime;
-
-	if(times === "true"){
-
-		defaultDirectoryPath = path.join(__dirname,'getStarted');
-
-		fileObj.firstTime = "false";
-		fileObj.directoryPath = defaultDirectoryPath;
-
-		writeJson(fileObj);
-
-	}else{
-		defaultDirectoryPath = parseJson.directoryPath;
-	}
-
-	directoryPath = defaultDirectoryPath;
-
-	readDirectoryAt(defaultDirectoryPath);
-
-	$("#folderName").html(getFileName(directoryPath));
-
+	ipc.send("readFile", parseJson)
 });
-
+ipc.on("directoryPath", (event, directoryPath) => {
+	$("#folderName").html(getFileName(directoryPath));
+})
+ipc.on("defaultDirectoryPath", (event, defaultDirectoryPath) => {
+	readDirectoryAt(defaultDirectoryPath);
+})
 

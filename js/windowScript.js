@@ -39,16 +39,9 @@ fs.readFile(jsonThemeFilePath,"utf-8",function(e,data){
 
 };
 
-$(".cancel").click(function(){
-
-	remote.getCurrentWindow().close()
-
-});
-
-	
-
-
-
+function cancelSettings(){
+	ipc.send('closeWindow')
+}
 readJsonThemeFile();
 
 $(function(){
@@ -120,7 +113,7 @@ $(function(){
 		if(themeSelected!=undefined){
 			ipc.send("selectedThemeValue",themeSelected);
 			readJsonThemeFile();
-			remote.getCurrentWindow().close();
+			ipc.send('closeWindow');
 		}else{
 			alert("No new theme selected, theme is not going to change");
 		}

@@ -1,3 +1,4 @@
+const { readFileSync } = require("original-fs");
 
 
 function writeJson(content){
@@ -13,7 +14,8 @@ function writeJson(content){
 	});
  
 
-} 
+}
+
 
 function writeJsonTheme(content){
 
@@ -166,86 +168,39 @@ function modifyTitleBar(fileName){
 
 
 function showShortcuts(){
-
-
-	const modalPath = path.join('file://',__dirname,'shortcutWindow.html');
-	let win = new BrowserWindow({ width:800, height:200, minHeight:100, minWidth:600, frame:true });
-	win.on("close",function(){
-		win=null;
-	});
-
-	win.loadURL(modalPath);
-	win.show();
-
-
+	ipc.send('showShortcuts')
 }
 
 
 function settings(theme){
-
-
-	const modalPath = path.join('file://',__dirname,'settings.html'+'#'+theme);
-	let win = new BrowserWindow({ width:800, height:550, minHeight:300, minWidth:550, maxWidth:800, maxHeight:800, frame:false });
-	win.on("close",function(){
-		win=null;
-	});
-
-	win.loadURL(modalPath);
-	win.show();
-
-
+	ipc.send('settings', theme);
 }
-
-
-//so I am going to show you how to work when there isomething to work with
-
-//so this is a video that I now recorded in mp4 and it seems like this is  a fair choice
-
-
-
-//now i am going to select folders
-
-
 
 function selectFolder(){
-
-dialog.showOpenDialog({
-
-    	properties: ['openDirectory']
-
-  		}, function(dir,e){
-  			if(dir!==undefined){
-
-  			$(".exploredFilesContainer").html("");
-
-  			var selectedDirectory = dir[0];	
-
-  			directoryPath = selectedDirectory;
-
-  			readDirectoryAt(selectedDirectory);
-
-  			$("#folderName").html(getFileName(selectedDirectory));
-
-  			fileObj.directoryPath = selectedDirectory;
-
-  			writeJson(fileObj);
-
-  			}else{
-  			
-  			}
-
-});
-
-
+	ipc.send('selectFolder');
 }
 
+ipc.on("selectedDirectory", (event,selectedDirectory) => {
+	$(".exploredFilesContainer").html("");
+	
+	directoryPath = selectedDirectory;
+    
+	readDirectoryAt(selectedDirectory);
+
+	$("#folderName").html(getFileName(selectedDirectory));
+
+	fileObj.directoryPath = selectedDirectory;
+
+	writeJson(fileObj);
+
+})
 
 function syncFiles(){
+	const saveddirpath = readFileSync(jsonFilePath, 'utf-8')
+	const saveddirpathcv = JSON.parse(saveddirpath)
 
 	$(".exploredFilesContainer").html("");
-	readDirectoryAt(directoryPath);
-
-
+	readDirectoryAt(saveddirpathcv.directoryPath);
 }
 
 
@@ -966,69 +921,7 @@ function saveFile(){
 
 
 function showSaveDialogAndSaveFile(){
-	
-	function saveFileArg(currentFileAddress){
-		
-		if(currentFileAddress === undefined){
-		//alert("File name is undefined");
-		return;						 
-		}
-		
-		var content = editor.getValue();
-		
-		fs.writeFile(currentFileAddress, content, function(e){
-			
-			if(e){
-				
-			  alert("An error occured while saving the file");
-				fileSaved = false;
-				updateFileSave();
-				
-			}
-			else{
-				
-				var tabIdNum = numberReturner(editor.container.id);
-				
-				var tabId = "tabId_"+tabIdNum;
-				
-				var currentFileName = getFileName(currentFileAddress);
-				
-				$("#"+tabId).parent().html(returnListDesign(tabId, currentFileAddress, currentFileName,true));
-				
-				populateTitleText();
-				
-				filePath = currentFileAddress;
-				fileSaved = true;
-				updateFileSave();
-				
-				var fileExt = getFileExtension(currentFileAddress);
-	
-				push(filePath);
-
-				mode = parseMode(fileExt);
-				
-				//todo : update the ui aftr detecting the extension and then colour code the editor
-				codeSlate(tabIdNum);
-				
-
-				savedFiles.push(currentFileAddress);
-				
-				//jsonContent.savedFiles = savedFiles;
-				
-				//writeJson(jsonContent);
-				
-				findEditor(editorId,fileExt);
-				
-			}
-		});
-		
-
-		
-	}
-	
-	dialog.showSaveDialog(saveFileArg);
-	
-	
+	ipc.send('showSaveDialog', currentFileAddress)
 }
 
 function populateTitleText(){
@@ -1230,7 +1123,6 @@ editor.getSession().setUseWrapMode(true)
 	$(".explorerHeader").html("Current Files");
 	 
 
-	 $("#changeFolder").on("click",selectFolder);
 
 
 
