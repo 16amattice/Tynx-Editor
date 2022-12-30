@@ -28,11 +28,31 @@ app.whenReady().then(() => {
         mainWindow.focus();
         autoUpdater.checkForUpdatesAndNotify();
     })
+    ipcMain.on("updateWindow", () =>{
+    let updateWindow = new BrowserWindow({ 
+          width:800, 
+          height:550, 
+          minHeight:300, 
+          minWidth:550, 
+          maxWidth:800, 
+          maxHeight:800, 
+          frame:false, 
+          autoHideMenuBar: true,
+          webPreferences: {
+              nodeIntegration: true,
+              contextIsolation: false,
+          }
+      });
+      windows.add(updateWindow);
+      updateWindow.loadFile("updateNotifier.html");
+      updateWindow.show();
+
+  });
     autoUpdater.on('update-available', () => {
-      mainWindow.webContents.send('update_available');
+      updateWindow.webContents.send('update_available');
     });
     autoUpdater.on('update-downloaded', () => {
-      mainWindow.webContents.send('update_downloaded');
+      updateWindow.webContents.send('update_downloaded');
     });
     ipcMain.on('restart_app', () => {
       autoUpdater.quitAndInstall();
