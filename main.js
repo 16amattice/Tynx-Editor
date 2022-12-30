@@ -1,13 +1,11 @@
-const { app, BrowserWindow, ipcMain, dialog, Tray, Menu, globalShortcut, autoUpdater } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, Tray, Menu, globalShortcut } = require('electron');
 const path = require("path");
 let windows = new Set();
 const shell = require('electron').shell;
 const ipc = require('electron').ipcMain;
 const nativeImage = require('electron').nativeImage;
 require('v8-compile-cache');
-const server = "https://tynx-editor.vercel.app/";
-const url = `${server}/update/${process.platform}/${app.getVersion()}`;
-autoUpdater.setFeedURL({ url });
+const { autoUpdater } = require('electron-updater');
 
 app.whenReady().then(() => {
     let mainWindow = new BrowserWindow({
@@ -25,10 +23,23 @@ app.whenReady().then(() => {
     windows.add(mainWindow)
     mainWindow.loadFile("editor.html");
 
-    mainWindow.on('ready-to-show', () => {
+    mainWindow.once('ready-to-show', () => {
         mainWindow.show();
         mainWindow.focus();
+        autoUpdater.checkForUpdatesAndNotify();
     })
+    autoUpdater.on('update-available', () => {
+      mainWindow.webContents.send('update_available');
+    });
+    autoUpdater.on('update-downloaded', () => {
+      mainWindow.webContents.send('update_downloaded');
+    });
+    ipcMain.on('restart_app', () => {
+      autoUpdater.quitAndInstall();
+    });
+    ipcMain.on('app_version', (event) => {
+      event.sender.send('app_version', { version: app.getVersion() });
+    });
     ipc.on("themeValue", function (event, arg) {
 
         mainWindow.webContents.send("getThemeValue", arg);

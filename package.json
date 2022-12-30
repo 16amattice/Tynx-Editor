@@ -4,24 +4,22 @@
   "description": "A simple code Editor",
   "main": "main.js",
   "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish"
+    "start": "electron start .",
+    "build": "electron-builder build --win --publish never",
+    "deploy": "electron-builder build --win --publish always"
   },
-  "repository": "https://github.com/16amattice/Tynx-Editor",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/16amattice/Tynx-Editor"
+  },
   "author": "16amattice",
   "license": "ISC",
   "devDependencies": {
-    "@electron-forge/cli": "^6.0.4",
-    "@electron-forge/maker-deb": "^6.0.4",
-    "@electron-forge/maker-rpm": "^6.0.4",
-    "@electron-forge/maker-squirrel": "^6.0.4",
-    "@electron-forge/maker-zip": "^6.0.4",
-    "electron": "^22.0.0"
+    "electron": "^22.0.0",
+    "electron-builder": "^23.6.0"
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0",
+    "electron-updater": "^5.3.0",
     "requirejs": "^2.3.6",
     "v8-compile-cache": "^2.3.0"
   }
