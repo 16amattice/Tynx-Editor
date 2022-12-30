@@ -1,18 +1,17 @@
-const { ipcRenderer } = require("electron");
 const { readFileSync } = require("original-fs");
 const notification = document.getElementById('updateNotification');
 const message = document.getElementById('updateMessage');
 const restartButton = document.getElementById('update-restart-button');
 
 
-ipcRenderer.on('update_available', () => {
-	ipcRenderer.send('updateWindow')
-	ipcRenderer.removeAllListeners('update_available');
+ipc.on('update_available', () => {
+	ipc.send('updateWindow')
+	ipc.removeAllListeners('update_available');
 	message.innerText = 'A new update is available. Downloading now...';
 	notification.classList.remove('hidden');
   });
-  ipcRenderer.on('update_downloaded', () => {
-	ipcRenderer.removeAllListeners('update_downloaded');
+  ipc.on('update_downloaded', () => {
+	ipc.removeAllListeners('update_downloaded');
 	message.innerText = 'Update Downloaded. It will be installed on restart. Restart now?';
 	restartButton.classList.remove('hidden');
 	notification.classList.remove('hidden');

@@ -49,10 +49,10 @@ app.whenReady().then(() => {
 
   });
     autoUpdater.on('update-available', () => {
-      updateWindow.webContents.send('update_available');
+      ipcMain.send('update_available');
     });
     autoUpdater.on('update-downloaded', () => {
-      updateWindow.webContents.send('update_downloaded');
+      ipcMain.send('update_downloaded');
     });
     ipcMain.on('restart_app', () => {
       autoUpdater.quitAndInstall();
