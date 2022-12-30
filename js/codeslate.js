@@ -1,28 +1,4 @@
 const { readFileSync } = require("original-fs");
-const notification = document.getElementById('updateNotification');
-const message = document.getElementById('updateMessage');
-const restartButton = document.getElementById('update-restart-button');
-
-
-ipc.on('update_available', () => {
-	ipc.send('updateWindow')
-	ipc.removeAllListeners('update_available');
-	message.innerText = 'A new update is available. Downloading now...';
-	notification.classList.remove('hidden');
-  });
-  ipc.on('update_downloaded', () => {
-	ipc.removeAllListeners('update_downloaded');
-	message.innerText = 'Update Downloaded. It will be installed on restart. Restart now?';
-	restartButton.classList.remove('hidden');
-	notification.classList.remove('hidden');
-  });
-
-function closeUpdateNotification() {
-	notification.classList.add('hidden');
-}
-function restartApp() {
-	ipcRenderer.send('restart_app');
-}
 
 function writeJson(content){
 

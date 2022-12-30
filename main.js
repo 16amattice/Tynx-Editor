@@ -1,11 +1,10 @@
-const { app, BrowserWindow, ipcMain, dialog, Tray, Menu, globalShortcut } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, Tray, Menu, globalShortcut, autoUpdater } = require('electron');
 const path = require("path");
 let windows = new Set();
 const shell = require('electron').shell;
 const ipc = require('electron').ipcMain;
 const nativeImage = require('electron').nativeImage;
 require('v8-compile-cache');
-const { autoUpdater } = require('electron-updater');
 
 app.whenReady().then(() => {
     let mainWindow = new BrowserWindow({
@@ -26,40 +25,8 @@ app.whenReady().then(() => {
     mainWindow.once('ready-to-show', () => {
         mainWindow.show();
         mainWindow.focus();
-        autoUpdater.checkForUpdatesAndNotify();
+        autoUpdater.checkForUpdates()
     })
-    ipcMain.on("updateWindow", () =>{
-    let updateWindow = new BrowserWindow({ 
-          width:800, 
-          height:550, 
-          minHeight:300, 
-          minWidth:550, 
-          maxWidth:800, 
-          maxHeight:800, 
-          frame:false, 
-          autoHideMenuBar: true,
-          webPreferences: {
-              nodeIntegration: true,
-              contextIsolation: false,
-          }
-      });
-      windows.add(updateWindow);
-      updateWindow.loadFile("updateNotifier.html");
-      updateWindow.show();
-
-  });
-    autoUpdater.on('update-available', () => {
-      ipcMain.send('update_available');
-    });
-    autoUpdater.on('update-downloaded', () => {
-      ipcMain.send('update_downloaded');
-    });
-    ipcMain.on('restart_app', () => {
-      autoUpdater.quitAndInstall();
-    });
-    ipcMain.on('app_version', (event) => {
-      event.sender.send('app_version', { version: app.getVersion() });
-    });
     ipc.on("themeValue", function (event, arg) {
 
         mainWindow.webContents.send("getThemeValue", arg);
