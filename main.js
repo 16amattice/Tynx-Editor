@@ -4,6 +4,7 @@ let windows = new Set();
 const shell = require('electron').shell;
 const ipc = require('electron').ipcMain;
 const nativeImage = require('electron').nativeImage;
+require('v8-compile-cache');
 
 app.whenReady().then(() => {
     let mainWindow = new BrowserWindow({
@@ -203,18 +204,30 @@ app.whenReady().then(() => {
           submenu: [
             {
                label: 'New File',
-               click () { win.webContents.send("newfile"); }
+               click () { mainWindow.webContents.send("newFile"); }
             },
             {
                label: 'New Folder',
-               click () { win.webContents.send("newfolder"); }          
+               click () { mainWindow.webContents.send("newfolder"); }          
+            },
+            { type: 'separator' },
+            {
+              label: 'Open File',
+              click () { mainWindow.webContents.send("openFile"); }
+            },
+            {
+            label: 'Open Folder',
+            click () { mainWindow.webContents.send("openFolder"); }
             },
             { type: 'separator' },
             {
               label: 'Save',
-              click () { win.webContents.send("save"); }
-           },
-           
+              click () { mainWindow.webContents.send("save"); }
+            },
+            {
+            label: 'Save As',
+            click () { mainWindow.webContents.send("saveAs"); }
+            },
           ]
         },
         {
