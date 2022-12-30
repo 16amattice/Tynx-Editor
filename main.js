@@ -5,10 +5,7 @@ const shell = require('electron').shell;
 const ipc = require('electron').ipcMain;
 const nativeImage = require('electron').nativeImage;
 require('v8-compile-cache');
-require('update-electron-app')({
-  repo: '16amattice/Tynx-Editor',
-  updateInterval: '5 minutes',
-})
+const { autoUpdater } = require("electron-updater")
 
 app.whenReady().then(() => {
     let mainWindow = new BrowserWindow({
@@ -29,6 +26,10 @@ app.whenReady().then(() => {
     mainWindow.once('ready-to-show', () => {
         mainWindow.show();
         mainWindow.focus();
+        const log = require("electron-log")
+      log.transports.file.level = "debug"
+      autoUpdater.logger = log
+      autoUpdater.checkForUpdatesAndNotify()
     })
     ipc.on("themeValue", function (event, arg) {
 
