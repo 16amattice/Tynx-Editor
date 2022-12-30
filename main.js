@@ -1,10 +1,14 @@
-const { app, BrowserWindow, ipcMain, dialog, Tray, Menu, globalShortcut, autoUpdater } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, Tray, Menu, globalShortcut } = require('electron');
 const path = require("path");
 let windows = new Set();
 const shell = require('electron').shell;
 const ipc = require('electron').ipcMain;
 const nativeImage = require('electron').nativeImage;
 require('v8-compile-cache');
+require('update-electron-app')({
+  repo: 'https://github.com/16amattice/Tynx-Editor',
+  updateInterval: '5 minutes',
+})
 
 app.whenReady().then(() => {
     let mainWindow = new BrowserWindow({
@@ -25,7 +29,6 @@ app.whenReady().then(() => {
     mainWindow.once('ready-to-show', () => {
         mainWindow.show();
         mainWindow.focus();
-        autoUpdater.checkForUpdates()
     })
     ipc.on("themeValue", function (event, arg) {
 
