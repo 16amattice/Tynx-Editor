@@ -6,7 +6,7 @@ const ipc = require('electron').ipcMain;
 const nativeImage = require('electron').nativeImage;
 require('v8-compile-cache');
 require('update-electron-app')({
-  repo: 'https://github.com/16amattice/Tynx-Editor',
+  repo: '16amattice/Tynx-Editor',
   updateInterval: '5 minutes',
 })
 
