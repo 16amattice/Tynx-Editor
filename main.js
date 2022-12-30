@@ -1,10 +1,13 @@
-const { app, BrowserWindow, ipcMain, dialog, Tray, Menu, globalShortcut } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, Tray, Menu, globalShortcut, autoUpdater } = require('electron');
 const path = require("path");
 let windows = new Set();
 const shell = require('electron').shell;
 const ipc = require('electron').ipcMain;
 const nativeImage = require('electron').nativeImage;
 require('v8-compile-cache');
+const server = <https://tynx-editor-jgmc6gx2a-16amattice.vercel.app/>;
+const url = `${server}/update/${process.platform}/${app.getVersion()}`;
+autoUpdater.setFeedURL({ url });
 
 app.whenReady().then(() => {
     let mainWindow = new BrowserWindow({
