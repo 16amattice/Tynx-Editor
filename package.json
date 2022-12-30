@@ -1,7 +1,7 @@
 {
-  "name": "WYSIWYG-Editor",
+  "name": "Tynx",
   "version": "1.0.0",
-  "description": "A simple WYSIWYG Editor",
+  "description": "A simple code Editor",
   "main": "main.js",
   "scripts": {
     "start": "electron-forge start",
@@ -9,7 +9,7 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish"
   },
-  "repository": "https://github.com/16amattice/WYSIWYG-Editor",
+  "repository": "https://github.com/16amattice/Tynx-Editor",
   "author": "16amattice",
   "license": "ISC",
   "devDependencies": {
