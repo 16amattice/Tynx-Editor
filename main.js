@@ -5,7 +5,7 @@ const shell = require('electron').shell;
 const ipc = require('electron').ipcMain;
 const nativeImage = require('electron').nativeImage;
 require('v8-compile-cache');
-const server = "https://tynx-editor-jgmc6gx2a-16amattice.vercel.app/";
+const server = "https://tynx-editor.vercel.app/";
 const url = `${server}/update/${process.platform}/${app.getVersion()}`;
 autoUpdater.setFeedURL({ url });
 
