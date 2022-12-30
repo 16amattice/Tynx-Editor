@@ -1,3 +1,3 @@
-# WYSIWYG-Editor
+# Tynx Editor
 
 A simple code editor.
